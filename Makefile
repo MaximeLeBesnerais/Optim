@@ -6,8 +6,8 @@
 ##
 
 BIN			:=    Optim
-GXX			:=    g++
-EXT			:=    cpp
+GXX			:=    gcc
+EXT			:=    c
 
 SRC_DIR		:=    src/
 INC_DIR		:=    include/
