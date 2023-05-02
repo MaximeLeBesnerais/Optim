@@ -1,6 +1,8 @@
 [Desktop Entry]
-Type=Utility
+Type=Application
+Categories=Utility;
 Name=Optim
+Comment=Graphical interface for Nvidia Optimus Manager
 Icon=/home/$USER/.config/Optim/assets/nvidia_logo.png
 Exec=/usr/bin/Optim
 Terminal=false
