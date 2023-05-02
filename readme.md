@@ -5,7 +5,7 @@
 ### How to install
 
 ```bash
-git clone git@github.com:MaximeLeBesnerais/Optim.git ~/Optim
+git clone git@github.com:MaximeLeBesnerais/Optim.git ~/.config/Optim
 cd ~/Optim
 make
 sudo cp ./Optim /usr/bin/Optim
