@@ -9,17 +9,20 @@
 #include "include.hpp"
 using namespace nana;
 
-void setup_labels(label &current, label &next, label &start)
+void setup_labels(label &current, label &next, label &start, label &changes)
 {
     current.caption(std::string("Current mode: ") + get_mode("mode"));
     next.caption(std::string("Next mode: ") + get_mode("next-mode"));
     start.caption(std::string("Start mode: ") + get_mode("startup"));
+    changes.caption(std::string("Changes: None"));
     current.bgcolor(colors::white);
     next.bgcolor(colors::white);
     start.bgcolor(colors::white);
+    changes.bgcolor(colors::white);
     current.text_align(align::center, align_v::center);
     next.text_align(align::center, align_v::center);
     start.text_align(align::center, align_v::center);
+    changes.text_align(align::center, align_v::center);
 }
 
 void setup_window(form &fm)
@@ -54,56 +57,69 @@ gpu get_current(void)
         return gpu::NVIDIA;
 }
 
-void deactivate_buttons(button &integrated, button &hybrid, button &nvidia, gpu current)
+void apply_change(labels_t &all)
 {
-    switch (current)
-    {
-    case gpu::INTEGRATED:
-        integrated.enabled(false);
-        break;
-    case gpu::HYBRID:
-        hybrid.enabled(false);
-        break;
-    case gpu::NVIDIA:
-        nvidia.enabled(false);
-        break;
-    default:
-        break;
+    if (a_gpu == c_gpu) {
+        all.changes.caption(std::string("Cannot apply: No changes"));
+        return;
     }
+    std::string new_mode;
+    switch (a_gpu) {
+        case gpu::INTEGRATED:
+            new_mode = "integrated";
+            break;
+        case gpu::HYBRID:
+            new_mode = "hybrid";
+            break;
+        case gpu::NVIDIA:
+            new_mode = "nvidia";
+            break;
+        default:
+            all.changes.caption(std::string("Cannot apply: New GPU mode is unknown"));
+            return;
+    }
+    std::string cmd = "optimus-manager --switch " + new_mode + " --no-confirm";
+    if (system(cmd.c_str()) == 0) {
+        all.changes.caption(std::string("Changes: Applied"));
+        c_gpu = a_gpu;
+    } else
+        all.changes.caption(std::string("Cannot apply: An error occured when using optimus-manager"));
 }
 
-void setup_actions(button &integrated, button &hybrid, button &nvidia)
+void setup_actions(buttons_t &b, labels_t &a)
 {
-    integrated.events().click([&] {
-        integrated.enabled(false);
-        hybrid.enabled(true);
-        nvidia.enabled(true);
+    b.integrated.events().click([&] {
+        b.integrated.enabled(false);
+        b.hybrid.enabled(true);
+        b.nvidia.enabled(true);
+        a.changes.caption(std::string("Changes: Switching to integrated"));
         a_gpu = gpu::INTEGRATED;
-        DISABLE_CURRENT
     });
-    hybrid.events().click([&] {
-        integrated.enabled(true);
-        hybrid.enabled(false);
-        nvidia.enabled(true);
+    b.hybrid.events().click([&] {
+        b.integrated.enabled(true);
+        b.hybrid.enabled(false);
+        b.nvidia.enabled(true);
+        a.changes.caption(std::string("Changes: Switching to hybrid"));
         a_gpu = gpu::HYBRID;
-        DISABLE_CURRENT
     });
-    nvidia.events().click([&] {
-        integrated.enabled(true);
-        hybrid.enabled(true);
-        nvidia.enabled(false);
+    b.nvidia.events().click([&] {
+        b.integrated.enabled(true);
+        b.hybrid.enabled(true);
+        b.nvidia.enabled(false);
+        a.changes.caption(std::string("Changes: Switching to nvidia"));
         a_gpu = gpu::NVIDIA;
-        DISABLE_CURRENT
+    });
+    b.apply.events().click([&] {
+        apply_change(a);
     });
 }
 
-void setup(form &fm, label &current, label &next, label &start, button &integrated, button &hybrid, button &nvidia, button &apply)
+void setup(form &fm, labels_t &all, buttons_t &buttons)
 {
     setup_window(fm);
-    setup_labels(current, next, start);
-    button_setup(integrated, hybrid, nvidia, apply);
-    deactivate_buttons(integrated, hybrid, nvidia, c_gpu);
-    setup_actions(integrated, hybrid, nvidia);
+    setup_labels(all.current, all.next, all.start, all.changes);
+    button_setup(buttons.integrated, buttons.hybrid, buttons.nvidia, buttons.apply);
+    setup_actions(buttons, all);
 }
 
 int g_main(void)
@@ -112,11 +128,14 @@ int g_main(void)
     label current(fm, rectangle{10, 10, WINDOW_WIDTH - 20, 20});
     label next(fm, rectangle{10, 30, WINDOW_WIDTH - 20, 20});
     label start(fm, rectangle{10, 50, WINDOW_WIDTH - 20, 20});
+    label changes(fm, rectangle{10, 100, WINDOW_WIDTH - 20, 20});
     button integrated(fm, rectangle{10, 80, 120, 20});
     button hybrid(fm, rectangle{(WINDOW_WIDTH / 2) - 60, 80, 120, 20});
     button nvidia(fm, rectangle{WINDOW_WIDTH - 130, 80, 120, 20});
-    button apply(fm, rectangle{WINDOW_WIDTH / 2 - 60, 110, 120, 20});
-    setup(fm, current, next, start, integrated, hybrid, nvidia, apply);
+    button apply(fm, rectangle{WINDOW_WIDTH / 2 - 60, 120, 120, 20});
+    labels_t all = {current, next, start, changes};
+    buttons_t buttons = {integrated, hybrid, nvidia, apply};
+    setup(fm, all, buttons);
     fm.show();
     exec();
     return 0;
