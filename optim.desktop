@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Utility
+Name=Optim
+Icon=~/Optim/assets/nvidia_logo.png
+Exec=~/Optim/Optim
+Terminal=false
