@@ -27,7 +27,8 @@ void setup_labels(label &current, label &next, label &start, label &changes)
 
 void setup_window(form &fm)
 {
-    paint::image img{"~/Optim/assets/nvidia_logo.jpg"};
+    std::string user = getlogin();
+    paint::image img{"/home/" + user + "/.config/Optim/assets/nvidia_logo.jpg"};
     fm.caption("Optimus Manager");
     fm.bgcolor(colors::white);
     fm.size(size{WINDOW_WIDTH, WINDOW_HEIGHT});

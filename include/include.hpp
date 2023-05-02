@@ -11,6 +11,7 @@
     #include <string>
     #include <fstream>
     #include <sstream>
+    #include <unistd.h>
     std::string get_mode(std::string print);
     int g_main(void);
 #endif //INCLUDE_HPP
