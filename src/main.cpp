@@ -6,7 +6,6 @@
 */
 
 #include "include.hpp"
-#include "graph.hpp"
 
 int main(void)
 {
