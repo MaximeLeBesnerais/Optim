@@ -11,12 +11,6 @@
     #include <string>
     #include <fstream>
     #include <sstream>
-
-    typedef enum GPU_STATUS {
-        INTEGRATED = 0,
-        HYBRID = 1,
-        NVIDIA = 2
-    } gpu;
-    
-    std::string get_mode(std::string print);    
+    std::string get_mode(std::string print);
+    int g_main(void);
 #endif //INCLUDE_HPP
