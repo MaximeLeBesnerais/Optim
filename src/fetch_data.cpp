@@ -12,7 +12,7 @@ std::string get_mode(std::string print)
     std::string cmd = "optimus-manager --print-" + print;
     FILE *pipe = popen(cmd.c_str(), "r");
     if (!pipe)
-        return "error: pipe failed";
+        return "EX-FF";
     char buffer[4096];
     std::string mode;
     while (fgets(buffer, sizeof(buffer), pipe) != NULL)
