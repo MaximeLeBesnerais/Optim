@@ -9,6 +9,7 @@ git clone git@github.com:MaximeLeBesnerais/Optim.git ~/.config/Optim
 cd ~/Optim
 make
 sudo cp ./Optim /usr/bin/Optim
+sudo cp ./optim.desktop /usr/share/applications/optim.desktop
 cd -
 ```
 
