@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Utility
 Name=Optim
-Icon=~/Optim/assets/nvidia_logo.png
-Exec=~/Optim/Optim
+Icon=/home/$USER/.config/Optim/assets/nvidia_logo.png
+Exec=/usr/bin/Optim
 Terminal=false
