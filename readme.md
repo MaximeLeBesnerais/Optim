@@ -6,7 +6,7 @@
 
 ```bash
 git clone git@github.com:MaximeLeBesnerais/Optim.git ~/.config/Optim
-cd ~/Optim
+cd ~/.config/Optim
 make
 sudo cp ./Optim /usr/bin/Optim
 sudo desktop-file-install ./optim.desktop
