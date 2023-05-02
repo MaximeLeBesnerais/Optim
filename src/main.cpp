@@ -5,7 +5,11 @@
 ** main.cpp
 */
 
-int main(int argc, char const *argv[])
+#include "include.hpp"
+#include "graph.hpp"
+
+int main(void)
 {
+    g_main();
     return 0;
 }
