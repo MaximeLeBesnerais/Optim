@@ -7,6 +7,10 @@
 
 #ifndef INCLUDE_HPP
     #define INCLUDE_HPP
+    #include <iostream>
+    #include <string>
+    #include <fstream>
+    #include <sstream>
 
     typedef enum GPU_STATUS {
         INTEGRATED,
