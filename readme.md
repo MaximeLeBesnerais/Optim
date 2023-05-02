@@ -9,8 +9,8 @@ git clone git@github.com:MaximeLeBesnerais/Optim.git ~/.config/Optim
 cd ~/.config/Optim
 make
 sudo cp ./Optim /usr/bin/Optim
-sudo desktop-file-install ./optim.desktop
 sudo cp ./assets/nvdia_logo.jpg /usr/share/icons/nvidia_logo.jpg
+sudo desktop-file-install ./optim.desktop
 cd -
 ```
 
