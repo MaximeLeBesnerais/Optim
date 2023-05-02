@@ -1,3 +1,6 @@
 .vscode
 report.md
 Optim
+*.o
+*.d
+*vgcore*
